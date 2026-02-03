@@ -1,4 +1,4 @@
-﻿namespace FundHub.Services.Services.PasswordHash;
+﻿namespace FundHub.Data.Services.PasswordHash;
 
 public interface IPasswordHash
 {

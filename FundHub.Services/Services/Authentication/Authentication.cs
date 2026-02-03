@@ -3,10 +3,10 @@ using FundHub.Data.Data;
 using FundHub.Data.Data.DTOs;
 using FundHub.Data.Data.DTOs.RequestDTO;
 using FundHub.Data.Data.Models;
+using FundHub.Data.Services.PasswordHash;
 using FundHub.Services.Services.JWT;
 using FundHub.Services.Services.JWT.DTO;
 using FundHub.Services.Services.Mail;
-using FundHub.Services.Services.PasswordHash;
 using FundHub.Services.Services.Repositories.UsersRepository;
 using Microsoft.EntityFrameworkCore;
 

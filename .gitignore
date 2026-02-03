@@ -1,10 +1,2 @@
-﻿FundHub.API/bin/
-FundHub.API/obj/
-FundHub.Test/bin/
-FundHub.Test/obj/
-FundHub.Data/bin/
-FundHub.Data/obj/
-FundHub.Services/bin/
-FundHub.Services/obj/
-bin/
+﻿bin/
 obj/

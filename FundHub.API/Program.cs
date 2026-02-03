@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using FundHub.Services;
 using FundHub.Services.Services.StartupService;
 using FundHubAPI;
 using Microsoft.Extensions.FileProviders;
