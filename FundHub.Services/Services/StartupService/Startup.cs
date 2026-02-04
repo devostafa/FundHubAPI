@@ -10,7 +10,7 @@ namespace FundHub.Services.Services.StartupService;
 
 public static class Startup
 {
-    public static void ExecuteStartupServices(IServiceProvider serviceProvider, IWebHostEnvironment webEnv)
+    public static void Execute(IServiceProvider serviceProvider, IWebHostEnvironment webEnv)
     {
         var storageFolder = Path.Combine(webEnv.ContentRootPath, "Storage");
         Directory.CreateDirectory(storageFolder);

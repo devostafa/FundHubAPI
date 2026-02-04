@@ -44,7 +44,7 @@ builder.Services.AddCors(opt =>
 var app = builder.Build();
 var serviceScope = app.Services.CreateScope();
 var services = serviceScope.ServiceProvider;
-Startup.ExecuteStartupServices(services, app.Environment);
+Startup.Execute(services, app.Environment);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
