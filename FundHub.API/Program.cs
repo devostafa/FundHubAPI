@@ -18,18 +18,22 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });;
 builder.Services.AddServices();
 builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    var secretKey = builder.Configuration["SecretKey"];
+
+    if (secretKey == null) return;
+    
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateLifetime = true,
-            ValidateIssuer = true,
-            ValidateAudience = false,
-            ValidIssuer = builder.Configuration["URL"],
-            ValidAudience = builder.Configuration["clientURL"],
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["secretkey"]))
-        };
-    });
+        ValidateLifetime = true,
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidIssuer = builder.Configuration["URL"],
+        ValidAudience = builder.Configuration["clientURL"],
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+    };
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -45,10 +49,10 @@ var urlkey = builder.Configuration["URL"];
 
 var app = builder.Build();
 
-var servicescope = app.Services.CreateScope();
-var services = servicescope.ServiceProvider;
-var startupservice = services.GetRequiredService<Startup>();
-startupservice.ExecuteServices();
+var serviceScope = app.Services.CreateScope();
+var services = serviceScope.ServiceProvider;
+var startupService = services.GetRequiredService<Startup>();
+startupService.ExecuteServices();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
