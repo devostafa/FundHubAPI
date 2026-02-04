@@ -8,37 +8,23 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FundHub.Services.Services.StartupService;
 
-public class Startup
+public static class Startup
 {
-    private readonly IServiceProvider _serviceprovider;
-    private readonly IWebHostEnvironment _webenv;
-
-    public Startup(IServiceProvider serviceProvider, IWebHostEnvironment webenv)
+    public static void ExecuteStartupServices(IServiceProvider serviceProvider, IWebHostEnvironment webEnv)
     {
-        _serviceprovider = serviceProvider;
-        _webenv = webenv;
+        var storageFolder = Path.Combine(webEnv.ContentRootPath, "Storage");
+        Directory.CreateDirectory(storageFolder);
+        
+        var dbService = serviceProvider.GetRequiredService<DataContext>();
+        dbService.Database.Migrate();
+        
+        var newsService = serviceProvider.GetRequiredService<INewsRepository>();
+        newsService.CreateNewsFolders();
+        
+        var projectsService = serviceProvider.GetRequiredService<IProjectsRepository>();
+        projectsService.CreateFolders();
+        
+        var usersService = serviceProvider.GetRequiredService<IUserRepository>();
+        usersService.CreateFolders();
     }
-
-    public void ExecuteServices()
-    {
-        var storagefolder = Path.Combine(_webenv.ContentRootPath, "Storage");
-        Directory.CreateDirectory(storagefolder);
-        var dbservice = _serviceprovider.CreateScope().ServiceProvider.GetRequiredService<DataContext>();
-        dbservice.Database.Migrate();
-        
-        var scope1 = _serviceprovider.CreateScope();
-        var newsservice = scope1.ServiceProvider.GetRequiredService<INewsRepository>();
-        newsservice.CreateNewsFolders();
-        
-        var scope2 = _serviceprovider.CreateScope();
-        var projectsservice = scope2.ServiceProvider.GetRequiredService<IProjectsRepository>();
-        projectsservice.CreateFolders();
-        
-        var scope3 = _serviceprovider.CreateScope();
-        var usersservice = scope3.ServiceProvider.GetRequiredService<IUserRepository>();
-        usersservice.CreateFolders();
-
-    }
-        
-        
 }

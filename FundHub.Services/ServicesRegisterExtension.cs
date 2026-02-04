@@ -30,7 +30,6 @@ public static class ServicesRegisterExtension
         serviceCollection.AddScoped<ICategoryRepository,CategoryRepository>();
         serviceCollection.AddScoped<INewsRepository,NewsRepository>();
         serviceCollection.AddScoped<IUserRepository,UserRepository>();
-        serviceCollection.AddScoped<Startup>();
         serviceCollection.AddAutoMapper(typeof(AutoProfile));
     }
 }

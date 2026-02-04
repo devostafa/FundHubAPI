@@ -2,20 +2,16 @@ using System.Text;
 using System.Text.Json.Serialization;
 using FundHub.Services;
 using FundHub.Services.Services.StartupService;
-using FundHubAPI;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-//HttpContextAccessor _httpContextAccessor = new HttpContextAccessor();
-//string issuer = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}";
-
-// Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-});;
+});
+
 builder.Services.AddServices();
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
@@ -39,20 +35,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy(name: "CorsPolicy", builder =>
+    opt.AddPolicy(name: "CorsPolicy", corsPolicyBuilder =>
     {
-        builder.WithOrigins("https://fund-hub.vercel.app","http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+        corsPolicyBuilder.WithOrigins(builder.Configuration["Client"], builder.Configuration["URL"]).AllowAnyHeader().AllowAnyMethod();
     });
 });
 
-var urlkey = builder.Configuration["URL"];
-
 var app = builder.Build();
-
 var serviceScope = app.Services.CreateScope();
 var services = serviceScope.ServiceProvider;
-var startupService = services.GetRequiredService<Startup>();
-startupService.ExecuteServices();
+Startup.ExecuteStartupServices(services, app.Environment);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
