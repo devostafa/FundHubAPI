@@ -7,9 +7,9 @@ using FundHub.Services.Services.JWT.DTO;
 
 namespace FundHub.Services.Services.AutoMapper;
 
-public class AutoProfile : Profile
+public class MapperProfile : Profile
 {
-    public AutoProfile()
+    public MapperProfile()
     {
         //model to DTO
         CreateMap<User,UserDTO>();
@@ -29,5 +29,4 @@ public class AutoProfile : Profile
         //DTO to DTO
         CreateMap<UserDTO, JWTRequestDTO>();
     }
-    
 }

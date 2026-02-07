@@ -11,13 +11,13 @@ namespace FundHub.Services.Services.Repositories.NewsRepository;
 public class NewsRepository : INewsRepository
 {
     private readonly DataContext _db;
-    private readonly IWebHostEnvironment _hostenv;
+    private readonly IWebHostEnvironment _hostEnv;
     private readonly IMapper _mapper;
 
-    public NewsRepository(DataContext db, IMapper mapper, IWebHostEnvironment hostingEnvironment)
+    public NewsRepository(DataContext db, IMapper mapper, IWebHostEnvironment hostEnv)
     {
         _db = db;
-        _hostenv = hostingEnvironment;
+        _hostEnv = hostEnv;
         _mapper = mapper;
     }
 
@@ -26,21 +26,21 @@ public class NewsRepository : INewsRepository
         return await _db.News.ProjectTo<NewsResponseDTO>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
-    public async Task<NewsResponseDTO> GetNewsArticle(string newsid)
+    public async Task<NewsResponseDTO> GetNewsArticle(string newsId)
     {
-        return await _db.News.ProjectTo<NewsResponseDTO>(_mapper.ConfigurationProvider).FirstAsync(n => n.Id == Guid.Parse(newsid));
+        return await _db.News.ProjectTo<NewsResponseDTO>(_mapper.ConfigurationProvider).FirstAsync(n => n.Id == Guid.Parse(newsId));
     }
 
     public async Task CreateNewsFolders()
     {
         try
         {
-            List<News> allnews = await _db.News.ToListAsync();
-            foreach (News news in allnews)
+            List<News> newsList = await _db.News.ToListAsync();
+            foreach (var news in newsList)
             {
-                var newsfoldertocreate = Path.Combine(_hostenv.ContentRootPath, "Storage", "News",
+                var newsFolderPath = Path.Combine(_hostEnv.ContentRootPath, "Storage", "News",
                     $"{news.Id}", "Images");
-                Directory.CreateDirectory(newsfoldertocreate); 
+                Directory.CreateDirectory(newsFolderPath); 
             }
             Console.WriteLine("Created News folders successfully");
         }
@@ -50,11 +50,8 @@ public class NewsRepository : INewsRepository
         }
     }
 
-    public async Task AddNews(News newstoadd)
+    public async Task AddNews(News newsEntry)
     {
-        await _db.News.AddAsync(newstoadd);
+        await _db.News.AddAsync(newsEntry);
     }
-
-
-
 }

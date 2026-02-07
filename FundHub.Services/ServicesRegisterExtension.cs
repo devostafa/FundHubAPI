@@ -9,7 +9,6 @@ using FundHub.Services.Services.Repositories.CategoriesRepository;
 using FundHub.Services.Services.Repositories.NewsRepository;
 using FundHub.Services.Services.Repositories.ProjectsRepository;
 using FundHub.Services.Services.Repositories.UsersRepository;
-using FundHub.Services.Services.StartupService;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FundHub.Services;
@@ -23,13 +22,12 @@ public static class ServicesRegisterExtension
         serviceCollection.AddScoped<IPasswordHash, PasswordHash>();
         serviceCollection.AddScoped<IAuthentication,Authentication>();
         serviceCollection.AddScoped<IJWT,Jwt>();
-        serviceCollection.AddScoped<IUserRepository,UserRepository>();
         serviceCollection.AddScoped<IDonate,Donate>();
         serviceCollection.AddScoped<IMail,Mail>();
         serviceCollection.AddScoped<IProjectsRepository,ProjectsRepository>();
         serviceCollection.AddScoped<ICategoryRepository,CategoryRepository>();
         serviceCollection.AddScoped<INewsRepository,NewsRepository>();
         serviceCollection.AddScoped<IUserRepository,UserRepository>();
-        serviceCollection.AddAutoMapper(typeof(AutoProfile));
+        serviceCollection.AddAutoMapper(cfg => { }, typeof(MapperProfile));
     }
 }

@@ -1,10 +1,13 @@
-﻿using FundHub.Data.Data;
+﻿using System.Reflection;
+using AutoMapper;
+using FundHub.Data.Data;
 using FundHub.Services.Services.Repositories.NewsRepository;
 using FundHub.Services.Services.Repositories.ProjectsRepository;
 using FundHub.Services.Services.Repositories.UsersRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FundHub.Services.Services.StartupService;
 
