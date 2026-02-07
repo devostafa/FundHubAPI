@@ -5,18 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace FundHubAPI.Controllers;
 
 [Route("Mail")]
-public class MailController : BaseController
+public class MailController(IMail mailService) : BaseController
 {
-    private readonly IMail _mailservice;
-
-    public MailController(IMail mailservice)
-    {
-        _mailservice = mailservice;
-    }
-    
     [HttpPost("send")]
-    public async Task<bool> SendMail(MailRequest mailtosend)
+    public async Task<bool> SendMail(MailRequest mailRequest)
     {
-        return await _mailservice.SendMail(mailtosend);
+        return await mailService.SendMail(mailRequest);
     }
 }
