@@ -14,7 +14,7 @@ public class MailController : BaseController
         _mailservice = mailservice;
     }
     
-    [HttpPost("sendmail")]
+    [HttpPost("send")]
     public async Task<bool> SendMail(MailRequest mailtosend)
     {
         return await _mailservice.SendMail(mailtosend);
